@@ -90,7 +90,26 @@ In general, n-gram is an inefficient model of language. This is because language
 </ul>
 
 <p>I will discuss the CBOW model in this article, but the idea remains the same for SG model as well. Theoretically, word2vec is a simple feed forward neural network, with a single hidden layer. We give the input to the network as the sum of all one-hot vectors of the corresponding context words. Let this final sum of vectors be represented by X. So X will be a Vx1 matrix, where V is the size of our dictionary. So X will somewhat look like this : (0,0,1,0,1,0,0,1,0....0), where 1 will occupy in the index of the context word in our dictionary, and 0 in the rest. Now we give this vector X as the input to our neural network.</p>
+<div id="disqus_thread"></div>
+<script>
 
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = 'https://siddhant7.github.io/index.html';  // Replace PAGE_URL with your page's canonical URL variable
+//this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//https-siddhant7-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <p><img src="http://postachio-images.s3-website-us-east-1.amazonaws.com/d7832041-1d7e-4ec7-bb7e-099193cc8c7d/097950f1-2231-48cb-9c3a-dcefa8ea3001/f297b956-90f2-4c29-9208-12be0050e819.png" alt="Word2vec Architecture"></p>
 
       <footer class="site-footer">
