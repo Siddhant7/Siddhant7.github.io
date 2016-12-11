@@ -10,108 +10,36 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-  
     <section class="page-header">
       <h1 class="project-name">Siddhant7.GitHub.io</h1>
-      <h2 class="project-tagline">Word2vec</h2>
+      <h2 class="project-tagline"></h2>
     </section>
 
     <section class="main-content">
-      <p>In this article, I try to explain the very popular word2vec model by <a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf">Tomas Mikolov</a>. This model is used for learning vector representations of words, called "word embeddings".(supervised vs unsupervised)</p>
+      <h3>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+
+<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
 
 <h3>
-<a id="highlights" class="anchor" href="#highlights" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Highlights</strong>
-</h3>
+<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
 
-<ul>
-<li>I start by giving the motivation for why we would want to represent words as vectors.</li>
-<li>I will then briefly cover on the traditional methods used for word embeddings.</li>
-<li>After introducing the concept of probabilistic language modelling, we will take a deep dive into our word2vec model(which is nothing, but a neural probabilistic language model without non-linearity).</li>
-<li>In the end, I will discuss about the practical issues of the model, and how to deal with it.</li>
-</ul>
+<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
 
 <h3>
-<a id="motivation-why-learn-word-embeddings" class="anchor" href="#motivation-why-learn-word-embeddings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Motivation: Why Learn Word Embeddings?</strong>
-</h3>
+<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
 
-<p>In order for a computer to process natural language, we need to create representation for the language, often times, the representation for the words. In many NLP tasks that use mathematical models such as neural networks, we would want to give an input to these models which should be in some mathematical format. We cannot give just raw words as input to the network. </p>
-
-<h3>
-<a id="traditional-methods" class="anchor" href="#traditional-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Traditional Methods</strong>
-</h3>
-
-<p><strong>Bag of Words</strong></p>
-
-<p>English language has in the order of 100,000 words. One can represent each word as a one-hot vector of dimension 100,000(e.g. the word "cat" will be represented as V-dimensional vector : (0,0,0,1,0,0....0) if it's index is 4 in our dictionary). This is a sparse and high dimension input. Each word in the vocabulary is represented by one bit position in a HUGE vector. Moreover, contextual information is not utilized by this approach. It will just act like a look-up table.</p>
-
-<p>Our goal is to map this into dense, continuous and low dimensional input of around 300 dimension(e.g. the word "cat" now will be represented as a 300-dimensional vector which may look like (-0.4, 0.3, 0,6,.....)), such that the <strong>semantically similar</strong> words are mapped close to each other. This is where Vector Space Models(VSMs) come into picture. VSMs represent (embed) words in a continuous vector space where semantically similar words are mapped to nearby points ('are embedded nearby each other'). VSMs have a long, rich history in NLP, but all methods depend in some way or another on the Distributional Hypothesis, which states that words that appear in the same contexts share semantic meaning. The different approaches that leverage this principle can be divided into two categories: count-based methods (e.g. Latent Semantic Analysis), and predictive methods (e.g. neural probabilistic language models).</p>
-
-<p><strong>Matrix-Factorization</strong></p>
-
-<p>Matrix factorization methods are count-based methods and are very popular for generating low-dimensional word representations. These methods utilize low-rank approximations to decompose large matrices that capture statistical information about a corpus. The particular type of information captured by such matrices varies by application. In LSA, the matrices are of “term-document” type, i.e., the rows correspond to words or terms, and the columns correspond to different documents in the corpus. The entries in the matrix are filled according to the frequency of each term in each document. The consequence of the rank lowering is that some dimensions are combined and depend on more than one term: </p>
-
-<p>{(car), (truck), (flower)} --&gt; {(1.3452 * car + 0.2828 * truck), (flower)}</p>
-
-<p>Now, what do we mean by "low-rank approximation" of a matrix? it simply means combining similar row vectors into one, as in the above example. This is achieved by a technique known as Singular Value Decomposition(SVD).</p>
+<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
 
 <h3>
-<a id="language-modelling" class="anchor" href="#language-modelling" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Language Modelling</strong>
-</h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Word embedding models are quite closely intertwined with language models. The quality of language models is measured based on their ability to learn a probability distribution over words in V. Before we get into the gritty details of word2vec model, let us briefly talk about some language modelling fundamentals.
-Language models generally try to compute the probability of a word wt given its n previous words, i.e. p(wt|wt−1,⋯wt−n+1).</p>
-
-<p>By applying the chain rule together with the Markov assumption, we can approximate the product of a whole sentence or document by the product of the probabilities of each word given its n previous words: </p>
-
-<p>p(w1,⋯,wT)=∏ip(wi|wi−1,⋯,wi−n+1)p(w1,⋯,wT)=∏ip(wi|wi−1,⋯,wi−n+1).</p>
-
-<p>In n-gram based language models, we can calculate a word's probability based on the frequencies of its constituent n-grams:</p>
-
-<p>p(wt|wt−1,⋯,wt−n+1)=count(wt−n+1,⋯,wt−1,wt)/count(wt−n+1,⋯,wt−1)</p>
-
-<p>If n=0, we call it unigram, if n=1, we call it bigram, and so on. We can extend it to trigram, 4-gram, 5-gram. But in general, we keep the value of n low, because as n increases, the sentence length that we need to find in the data increases. So, the occurrence of these long length sentences will be usually less in our corpus.
-In general, n-gram is an inefficient model of language. This is because language has long-distance dependencies. For example, consider the sentence :</p>
-
-<p><em>"The computer which I had just put into the machine room on the fifth floor crashed".</em> </p>
-
-<p>We would get poor prediction if we tried to predict the word "crashed" by considering even the 5 previous words(6-gram model).</p>
+<p>You can @mention a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
 
 <h3>
-<a id="word2vec-model" class="anchor" href="#word2vec-model" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Word2vec Model</h3>
+<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-<p>Word2vec uses the concept of neural language modelling to learn vector representation of words. In neural language models, we achieve the same objective of predicting the next word of a sentence by using the well-known softmax function</p>
-
-<p>p(wt|wt−1,⋯,wt−n+1)=exp(h⊤v′wt)/∑wi∈Vexp(h⊤v′wi)</p>
-
-<p>The word2vec model can be trained via 2 tasks :</p>
-
-<ul>
-<li>Continuous Bag of Words(CBOW) : Predicts a word with input as a sequence of multiple words. This sequence is referred to as the context of the word that needs to be predicted.</li>
-<li>Skip Gram(SG) : Predicts multiple words with input as a context word. In this, a single word acts as a context to the multiple words being predicted.</li>
-</ul>
-
-<p>I will discuss the CBOW model in this article, but the idea remains the same for SG model as well. Theoretically, word2vec is a simple feed forward neural network, with a single hidden layer. We give the input to the network as the sum of all one-hot vectors of the corresponding context words. Let this final sum of vectors be represented by X. So X will be a Vx1 matrix, where V is the size of our dictionary. So X will somewhat look like this : (0,0,1,0,1,0,0,1,0....0), where 1 will occupy in the index of the context word in our dictionary, and 0 in the rest. Now we give this vector X as the input to our neural network.</p>
-<p><img src="http://postachio-images.s3-website-us-east-1.amazonaws.com/d7832041-1d7e-4ec7-bb7e-099193cc8c7d/097950f1-2231-48cb-9c3a-dcefa8ea3001/f297b956-90f2-4c29-9208-12be0050e819.png" alt="Word2vec Architecture"></p>
-<div id="disqus_thread"></div>
-<script>
-
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-
-var disqus_config = function () {
-this.page.url = 'https://siddhant7.github.io/index.html';  // Replace PAGE_URL with your page's canonical URL variable
-//this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = '//https-siddhant7-github-io.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
 
       <footer class="site-footer">
 
